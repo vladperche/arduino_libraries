@@ -1,0 +1,6 @@
+VpcRotary   KEYWORD1
+check   KEYWORD2
+isClockwise KEYWORD2
+isCounterclock KEYWORD2
+buttonUp    KEYWORD2
+buttonDown  KEYWORD2
