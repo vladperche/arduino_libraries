@@ -41,14 +41,19 @@ void VpcRotary::setPinMode()
     movedClockwise = false;
     movedCounterclock = false;
 
-    pinMode(pinSW, INPUT_PULLUP);
-    pinMode(pinDT, INPUT_PULLUP);
+    pinMode(pinSW, INPUT);
+    pinMode(pinDT, INPUT);
     if(pinClk >= 0)
         pinMode(pinClk, INPUT_PULLUP);
 }
 
 void VpcRotary::readInitialState()
 {
+    this->setValue(0);
+    this->setMinValue(0);
+    this->setMaxValue(0);
+    this->setStep(0);
+    this->Loop(false);
     lastMove = millis();
     oldStateSW = digitalRead(pinSW);
     oldStateDT = digitalRead(pinDT);
@@ -63,23 +68,48 @@ void VpcRotary::check()
 
     movedClockwise = false;
     movedCounterclock = false;
-    if(curStateClk != oldStateClk)
+    if(curStateClk != oldStateClk && curStateClk == 1)
     {
         int curStateDT = digitalRead(pinDT);
-        if(curStateDT != curStateClk && currMilis - lastMove > 500)
+        if(curStateDT != curStateClk)
         {
             //Moved in the clockwise direction
+            value += step;
+            if(value > maxValue)
+            {
+                if(loop)
+                {
+                    value = minValue;
+                }
+                else
+                {
+                    value = maxValue;
+                }
+            }
             movedClockwise = true;
         }
         else
         {
+            value -= step;
+            if(value < minValue)
+            {
+                if(loop)
+                {
+                    value = maxValue;
+                }
+                else
+                {
+                    value = minValue;
+                }
+            }
             //Moved counterclockwise
             movedCounterclock = true;
         }
-        oldStateClk = curStateClk;
+        
         lastMove = currMilis;
-        delay(200);
+        delay(1);
     }
+    oldStateClk = curStateClk;
 
     if(pinSW >= 0)
     {
@@ -98,8 +128,8 @@ void VpcRotary::check()
                 pushUp = true;
                 pushDown = false;
             }
-            oldStateSW = curStateSW;
         }
+        oldStateSW = curStateSW;
     }
 }
 
@@ -125,4 +155,34 @@ bool VpcRotary::buttonDown()
     bool isPushDown = pushDown;
     pushDown = false;
     return isPushDown;
+}
+
+void VpcRotary::setValue(int value)
+{
+    this->value = value;
+}
+
+int VpcRotary::getValue(void)
+{
+    return this->value;
+}
+
+void VpcRotary::setStep(int step)
+{
+    this->step = step;
+}
+
+void VpcRotary::setMinValue(int minValue)
+{
+    this->minValue = minValue;
+}
+
+void VpcRotary::setMaxValue(int maxValue)
+{
+    this->maxValue = maxValue;
+}
+
+void VpcRotary::Loop(bool loop)
+{
+    this->loop = loop;
 }

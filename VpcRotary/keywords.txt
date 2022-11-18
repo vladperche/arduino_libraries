@@ -4,3 +4,9 @@ isClockwise KEYWORD2
 isCounterclock KEYWORD2
 buttonUp    KEYWORD2
 buttonDown  KEYWORD2
+setValue    KEYWORD2
+getValue    KEYWORD2
+setStep KEYWORD2
+setMinValue KEYWORD2
+setMaxValue KEYWORD2
+Loop    KEYWORD2
