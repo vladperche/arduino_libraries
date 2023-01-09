@@ -57,3 +57,45 @@ String VpcStrings::TimeToHHMMSS(int hour, int minutes, int seconds)
     value += VpcStrings->PadL(seconds, '0', 4);
     return value;
 }
+
+String VpcStrings::CDoW_smallest(int dow)
+{
+    String daysOfTheWeek[7] = {
+        "DOM",
+        "SEG",
+        "TER",
+        "QUA",
+        "QUI",
+        "SEX",
+        "SAB"
+    };
+    return daysOfTheWeek[dow];
+}
+
+String VpcStrings::CDoW_short(int dow)
+{
+    String daysOfTheWeek[7] = {
+        "Domingo",
+        "Segunda",
+        "Terca",
+        "Quarta",
+        "Quinta",
+        "Sexta",
+        "Sabado"
+    };
+    return daysOfTheWeek[dow];
+}
+
+String VpcStrings::CDoW_long(int dow)
+{
+    String daysOfTheWeek[7] = {
+        "Domingo",
+        "Segunda-feira",
+        "Terca-feira",
+        "Quarta-feira",
+        "Quinta-feira",
+        "Sexta-feira",
+        "Sabado"
+    };
+    return daysOfTheWeek[dow];
+}
